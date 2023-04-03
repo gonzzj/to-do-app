@@ -23,7 +23,7 @@ function App() {
         <div className={"root"} >
           <Title flagDarkTheme={flagDarkTheme} setFlagDarkTheme={setFlagDarkTheme} />
           <ListTasks listTasks={listTasks} setListTasks={setListTasks} filter={filter} isLoading={isLoading} setIsLoading={setIsLoading} />
-          <ListTasksFooter tasks={listTasks} setListTasks={setListTasks} setIsLoading={setIsLoading} setFilter={setFilter} flagDarkTheme={flagDarkTheme} setFlagDarkTheme={setFlagDarkTheme} />
+          <ListTasksFooter tasks={listTasks} setListTasks={setListTasks} filter={filter} setIsLoading={setIsLoading} setFilter={setFilter} flagDarkTheme={flagDarkTheme} setFlagDarkTheme={setFlagDarkTheme} />
         </div>
       </Container>
     </ThemeProvider>

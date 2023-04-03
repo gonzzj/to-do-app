@@ -1,22 +1,15 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import Drawer from '@mui/material/Drawer';
-import IconButton from '@mui/material/IconButton';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import MenuIcon from '@mui/icons-material/Menu';
-import RuleIcon from '@mui/icons-material/Rule';
-import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
-import PlaylistRemoveIcon from '@mui/icons-material/PlaylistRemove';
-import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
-import LightModeIcon from '@mui/icons-material/LightMode';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { useTheme } from '@mui/material/styles';
+import { useTheme, styled } from '@mui/material/styles';
 import { IListTask } from "../../types/ListTask";
 import { ETaskFilter } from "../../types/TaskFilter";
 import { supabase } from "../../service/api";
-import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import ListTasksDrawer from "./ListTasksDrawer";
+import ToggleButton, { ToggleButtonProps } from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 interface IListTasksFooterProps {
     tasks: IListTask[];
@@ -24,13 +17,20 @@ interface IListTasksFooterProps {
     setFlagDarkTheme(flag: boolean): void;
     setListTasks: (tasks: IListTask[]) => void;
     setFilter: (filter: ETaskFilter) => void;
+    filter: ETaskFilter;
     setIsLoading: (loading: boolean) => void;
 }
 
-const ListTasksFooter = ({ tasks, setListTasks, setFilter, setIsLoading, flagDarkTheme, setFlagDarkTheme }: IListTasksFooterProps) => {
+const ToggleButtonStyled = styled(ToggleButton)<ToggleButtonProps>(({ theme }) => ({
+    border: 0,
+    '&.Mui-selected': {
+        backgroundColor: 'transparent',
+    }
+}));
+
+const ListTasksFooter = ({ tasks, setListTasks, filter, setFilter, setIsLoading, flagDarkTheme, setFlagDarkTheme }: IListTasksFooterProps) => {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up('sm'));
-    const [drawer, setDrawer] = useState<boolean>(false);
 
     const tasksUncompleted = useMemo(() => {
         return tasks.filter(task => !task.completed);
@@ -63,80 +63,33 @@ const ListTasksFooter = ({ tasks, setListTasks, setFilter, setIsLoading, flagDar
             {matches ? (
                 <>
                     <Grid item xs={12} md={4} container justifyContent="center">
-                        <Button onClick={() => setFilter(ETaskFilter.ALL)}>All</Button>
-                        <Button onClick={() => setFilter(ETaskFilter.ACTIVE)}>Active</Button>
-                        <Button onClick={() => setFilter(ETaskFilter.COMPLETED)}>Completed</Button>
+                        <ToggleButtonGroup
+                            color="primary"
+                            value={filter}
+                            exclusive
+                            onChange={(
+                                e: React.MouseEvent<HTMLElement>,
+                                newFilter: ETaskFilter,
+                            ) => {
+                                setFilter(newFilter);
+                            }}
+                        >
+                            <ToggleButtonStyled value={ETaskFilter.ALL}>All</ToggleButtonStyled>
+                            <ToggleButtonStyled value={ETaskFilter.ACTIVE}>Active</ToggleButtonStyled>
+                            <ToggleButtonStyled value={ETaskFilter.COMPLETED}>Completed</ToggleButtonStyled>
+                        </ToggleButtonGroup>
                     </Grid>
                     <Grid item xs={12} md={4} container justifyContent="flex-end">
                         <Button onClick={onClickClearCompleted}>Clear completed tasks</Button>
                     </Grid>
                 </>
             ) : (
-                <>
-                    <IconButton onClick={() => setDrawer(true)} sx={{ position: 'absolute', top: '28px', right: '28px'}}>
-                        <MenuIcon />
-                    </IconButton>
-                    <Drawer
-                        anchor={'right'}
-                        open={drawer}
-                        onClose={() => setDrawer(false)}
-                    >
-                        <Box
-                            sx={{ width: 270 }}
-                            onClick={() => setDrawer(false)}
-                            onKeyDown={() => setDrawer(false)}
-                        >
-                            <List>
-                                <ListItem disablePadding>
-                                    <ListItemButton onClick={() => setFilter(ETaskFilter.ALL)}>
-                                        <ListItemIcon>
-                                            <RuleIcon />
-                                        </ListItemIcon>
-                                        <ListItemText primary={'All'} />
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem disablePadding>
-                                    <ListItemButton onClick={() => setFilter(ETaskFilter.ACTIVE)}>
-                                        <ListItemIcon>
-                                            <PlaylistAddCheckIcon />
-                                        </ListItemIcon>
-                                        <ListItemText primary={'Active'} />
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem disablePadding>
-                                    <ListItemButton onClick={() => setFilter(ETaskFilter.COMPLETED)}>
-                                        <ListItemIcon>
-                                            <PlaylistRemoveIcon />
-                                        </ListItemIcon>
-                                        <ListItemText primary={'Completed'} />
-                                    </ListItemButton>
-                                </ListItem>
-                            </List>
-                            <Divider />
-                            <List>
-                                <ListItem disablePadding>
-                                    <ListItemButton onClick={onClickClearCompleted}>
-                                        <ListItemIcon>
-                                            <DeleteSweepIcon />
-                                        </ListItemIcon>
-                                        <ListItemText primary={'Clear completed tasks'} />
-                                    </ListItemButton>
-                                </ListItem>
-                            </List>
-                            <Divider />
-                            <List>
-                                <ListItem disablePadding>
-                                    <ListItemButton onClick={() => setFlagDarkTheme(!flagDarkTheme)}>
-                                        <ListItemIcon>
-                                            {flagDarkTheme ? <LightModeIcon /> : <DarkModeIcon />}
-                                        </ListItemIcon>
-                                        <ListItemText primary={flagDarkTheme ? 'Light mode' : 'Dark mode'} />
-                                    </ListItemButton>
-                                </ListItem>
-                            </List>
-                        </Box>
-                    </Drawer>
-                </>
+                <ListTasksDrawer 
+                    setFilter={setFilter}
+                    flagDarkTheme={flagDarkTheme}
+                    setFlagDarkTheme={setFlagDarkTheme}
+                    onClickClearCompleted={onClickClearCompleted}
+                />
             )}
         </Grid>
     );
