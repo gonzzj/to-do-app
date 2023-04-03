@@ -2,6 +2,7 @@
   "homepage": "https://gonzzj.github.io/to-do-app",
   "name": "to-do-app",
   "private": true,
+  "files": ["dist"],
   "version": "0.0.0",
   "type": "module",
   "scripts": {
