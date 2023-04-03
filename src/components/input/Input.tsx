@@ -15,7 +15,6 @@ const InputStyled = styled(TextField)<TextFieldProps>(({ theme }) => ({
     marginBottom: 14
 }));
 
-
 const Input = ({ onSubmitInput, error }: IInputProps) => {
     const [value, setValue] = useState<string>('');
     const [complete, setComplete] = useState<boolean>(false);
