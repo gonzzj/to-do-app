@@ -13,7 +13,7 @@ interface IListProps {
 
 const List = ({ tasks, handleToggle }: IListProps) => {
     return (
-        <MuiList sx={{ width: '100%' }}>
+        <MuiList>
             {tasks.map((value, key) => {
                 return (
                     <ListItem
