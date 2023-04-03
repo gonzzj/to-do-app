@@ -23,6 +23,7 @@ interface IListTasksFooterProps {
 
 const ToggleButtonStyled = styled(ToggleButton)<ToggleButtonProps>(({ theme }) => ({
     border: 0,
+    borderRadius: 0,
     '&.Mui-selected': {
         backgroundColor: 'transparent',
     }
