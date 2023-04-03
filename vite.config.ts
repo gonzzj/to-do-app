@@ -10,7 +10,7 @@ export default defineConfig(({ command, mode }) => {
     define: {
       __APP_ENV__: env.APP_ENV,
     },
-    base: "/to-do-app/",
+    base: "/",
     plugins: [react()],
   }
 })
