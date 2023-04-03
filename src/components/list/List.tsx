@@ -20,11 +20,11 @@ const List = ({ tasks, handleToggle }: IListProps) => {
                         key={key}
                         disablePadding
                     >
-                        <ListItemButton role={undefined} onClick={() => handleToggle(value.position)} dense>
+                        <ListItemButton role={undefined} onClick={() => handleToggle(value.id)} dense>
                             <ListItemIcon>
                                 <Checkbox
                                     edge="start"
-                                    checked={value.completed}
+                                    checked={value?.completed || false}
                                     tabIndex={-1}
                                     disableRipple
                                 />

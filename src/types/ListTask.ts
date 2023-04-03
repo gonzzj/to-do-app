@@ -1,5 +1,5 @@
 export interface IListTask {
-    completed: boolean;
-    text: string;
-    position: number;
+    id: number;
+    completed: boolean | null; 
+    text: string | null;
 }
