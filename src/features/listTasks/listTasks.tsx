@@ -1,19 +1,23 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Input from "../../components/Input";
 import List from "../../components/List";
 import Loading from "../../components/Loading";
-import ListTasksFooter from "./ListTasksFooter";
 import { IListTask } from "../../types/ListTask";
-import { ETaskFilter } from "../../types/TaskFilter";
 import { supabase } from "../../service/api";
 import { filteringMap } from "../../mocks/filters";
+import { ETaskFilter } from "../../types/TaskFilter";
 
-const ListTasks = () => {
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [filter, setFilter] = useState<ETaskFilter>(ETaskFilter.ALL);
+interface IListTasksProps {
+    filter: ETaskFilter;
+    isLoading: boolean;
+    setIsLoading: (loading: boolean) => void;
+    listTasks: IListTask[];
+    setListTasks: (tasks: IListTask[]) => void;
+}
+
+const ListTasks = ({ filter, isLoading, setIsLoading, listTasks, setListTasks }: IListTasksProps) => {
     const [inputValidation, setInputValidation] = useState<boolean>(false);
-    const [listTasks, setListTasks] = useState<IListTask[]>([]);
 
     useEffect(() => {
         const getTasks = async () => {
@@ -89,7 +93,6 @@ const ListTasks = () => {
                     listTasks.length !== 0 && <List tasks={listTasks} handleToggle={toggleTask} />
                 )}
             </Grid>
-            <ListTasksFooter tasks={listTasks} setListTasks={setListTasks} setIsLoading={setIsLoading} setFilter={setFilter} />
         </Grid>
     );
 };

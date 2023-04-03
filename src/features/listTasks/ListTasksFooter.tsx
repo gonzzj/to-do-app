@@ -10,6 +10,8 @@ import RuleIcon from '@mui/icons-material/Rule';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import PlaylistRemoveIcon from '@mui/icons-material/PlaylistRemove';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { useTheme } from '@mui/material/styles';
 import { IListTask } from "../../types/ListTask";
 import { ETaskFilter } from "../../types/TaskFilter";
@@ -18,12 +20,14 @@ import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemTex
 
 interface IListTasksFooterProps {
     tasks: IListTask[];
+    flagDarkTheme: boolean;
+    setFlagDarkTheme(flag: boolean): void;
     setListTasks: (tasks: IListTask[]) => void;
     setFilter: (filter: ETaskFilter) => void;
     setIsLoading: (loading: boolean) => void;
 }
 
-const ListTasksFooter = ({ tasks, setListTasks, setFilter, setIsLoading }: IListTasksFooterProps) => {
+const ListTasksFooter = ({ tasks, setListTasks, setFilter, setIsLoading, flagDarkTheme, setFlagDarkTheme }: IListTasksFooterProps) => {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up('sm'));
     const [drawer, setDrawer] = useState<boolean>(false);
@@ -48,7 +52,7 @@ const ListTasksFooter = ({ tasks, setListTasks, setFilter, setIsLoading }: IList
     }, [tasks]);
 
     return (
-        <Grid container item alignItems={"center"} paddingX={2} paddingY={0}>
+        <Grid container alignItems={"center"} paddingX={2} paddingY={0}>
             <Grid item xs={12} md={4} sx={{ cursor: "default" }}>
                 {tasks.length !== 0 ?
                     <Typography>{tasksUncompleted.length !== 0 ? `${tasksUncompleted.length} remaining` : 'All tasks have been completed'}</Typography>
@@ -116,6 +120,17 @@ const ListTasksFooter = ({ tasks, setListTasks, setFilter, setIsLoading }: IList
                                             <DeleteSweepIcon />
                                         </ListItemIcon>
                                         <ListItemText primary={'Clear completed tasks'} />
+                                    </ListItemButton>
+                                </ListItem>
+                            </List>
+                            <Divider />
+                            <List>
+                                <ListItem disablePadding>
+                                    <ListItemButton onClick={() => setFlagDarkTheme(!flagDarkTheme)}>
+                                        <ListItemIcon>
+                                            {flagDarkTheme ? <LightModeIcon /> : <DarkModeIcon />}
+                                        </ListItemIcon>
+                                        <ListItemText primary={flagDarkTheme ? 'Light mode' : 'Dark mode'} />
                                     </ListItemButton>
                                 </ListItem>
                             </List>
