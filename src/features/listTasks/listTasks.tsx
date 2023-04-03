@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
-import Input from "../../components/Input";
-import List from "../../components/List";
+import Input from "../../components/input";
+import List from "../../components/list";
 import Loading from "../../components/Loading";
 import { IListTask } from "../../types/ListTask";
 import { supabase } from "../../service/api";

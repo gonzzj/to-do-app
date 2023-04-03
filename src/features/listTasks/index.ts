@@ -1,2 +1,2 @@
-import ListTasks from "./ListTasks";
+import ListTasks from "./listTasks";
 export default ListTasks;
