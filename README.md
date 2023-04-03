@@ -39,3 +39,9 @@ Open [http://localhost:5173](http://localhost:5173) with your browser to see the
 - [Vite](https://vitejs.dev/guide/) - Development environment tool
 - [Material UI](https://mui.com/core/) - Design system components
 - [Supabase](https://supabase.com/) - Open source cloud storage
+
+## Public URL Application
+
+The page is hosted on Vercel -> https://to-do-app-three-phi.vercel.app/
+
+> Note: By default, every commit pushed to the main branch will trigger a Production Deployment instead of the usual Preview Deployment. You can switch to a different branch here.
