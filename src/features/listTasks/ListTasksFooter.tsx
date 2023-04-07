@@ -19,6 +19,7 @@ interface IListTasksFooterProps {
     setFilter: (filter: ETaskFilter) => void;
     filter: ETaskFilter;
     setIsLoading: (loading: boolean) => void;
+    setSnackbar: (snackbar: { open: boolean, text: string }) => void;
 }
 
 const ToggleButtonStyled = styled(ToggleButton)<ToggleButtonProps>(({ theme }) => ({
@@ -29,7 +30,7 @@ const ToggleButtonStyled = styled(ToggleButton)<ToggleButtonProps>(({ theme }) =
     }
 }));
 
-const ListTasksFooter = ({ tasks, setListTasks, filter, setFilter, setIsLoading, flagDarkTheme, setFlagDarkTheme }: IListTasksFooterProps) => {
+const ListTasksFooter = ({ tasks, setListTasks, filter, setFilter, setIsLoading, flagDarkTheme, setFlagDarkTheme, setSnackbar }: IListTasksFooterProps) => {
     const theme = useTheme();
     const matches = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -45,7 +46,10 @@ const ListTasksFooter = ({ tasks, setListTasks, filter, setFilter, setIsLoading,
             .eq('completed', true);
 
         if (error) {
-            console.log(error);
+            setSnackbar({
+                open: true,
+                text: 'Error: ' + error
+            })
         } else {
             setIsLoading(false)
             setListTasks(tasksUncompleted);

@@ -27,7 +27,7 @@ const List = ({ tasks, handleToggle }: IListProps) => (
                     key={key}
                     disablePadding
                 >
-                    <ListItemButton role={undefined} onClick={() => handleToggle(value.id)} dense>
+                    <ListItemButton onClick={() => handleToggle(value.id)} dense>
                         <ListItemIcon>
                             <Checkbox
                                 edge="start"

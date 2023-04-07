@@ -14,9 +14,10 @@ interface IListTasksProps {
     setIsLoading: (loading: boolean) => void;
     listTasks: IListTask[];
     setListTasks: (tasks: IListTask[]) => void;
+    setSnackbar: (snackbar: { open: boolean, text: string }) => void;
 }
 
-const ListTasks = ({ filter, isLoading, setIsLoading, listTasks, setListTasks }: IListTasksProps) => {
+const ListTasks = ({ filter, isLoading, setIsLoading, listTasks, setListTasks, setSnackbar }: IListTasksProps) => {
     const [inputValidation, setInputValidation] = useState<boolean>(false);
 
     useEffect(() => {
@@ -26,9 +27,11 @@ const ListTasks = ({ filter, isLoading, setIsLoading, listTasks, setListTasks }:
                 .select('id, text, completed')
                 .in('completed', filteringMap[filter])
                 .order('id')
-            
             if (error) {
-                console.log(error);
+                setSnackbar({
+                    open: true,
+                    text: 'Error: ' + error.message,
+                })
             } else {
                 setListTasks(tasks);
                 setIsLoading(false);
@@ -46,7 +49,10 @@ const ListTasks = ({ filter, isLoading, setIsLoading, listTasks, setListTasks }:
             const { data, error } = await supabase.from('tasks').insert([newTask]).select('id, text, completed')
             
             if (error) {
-                console.log(error);
+                setSnackbar({
+                    open: true,
+                    text: 'Error: ' + error
+                })
             } else {
                 setListTasks([...listTasks, ...data]);
                 setInputValidation(false);
@@ -72,7 +78,10 @@ const ListTasks = ({ filter, isLoading, setIsLoading, listTasks, setListTasks }:
                 .select('id, text, completed')
             
             if (error) {
-                console.log(error);
+                setSnackbar({
+                    open: true,
+                    text: 'Error: ' + error
+                })
             } else {
                 newListTasks[currentTaskIndex] = data[0];
                 setListTasks(newListTasks)

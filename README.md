@@ -31,11 +31,13 @@ Open [http://localhost:5173](http://localhost:5173) with your browser to see the
 ## Useful commands
 
 - `npm run dev` - Run the application locally
+- `npm run test` - Run the tests
 - `npm run build` - Build a new version to deploy
 
 ## Used libraries and technologies
 
 - [React](https://react.dev/) - Library for web and native user interfaces
+- [Jest](https://jestjs.io/) - Testing library
 - [Vite](https://vitejs.dev/guide/) - Development environment tool
 - [Material UI](https://mui.com/core/) - Design system components
 - [Supabase](https://supabase.com/) - Open source cloud storage
