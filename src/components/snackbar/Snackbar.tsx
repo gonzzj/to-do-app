@@ -6,8 +6,8 @@ type Severity = 'error' | 'warning' | 'info' | 'success';
 
 interface ISnackbarProps {
     snackbar: {
-        open: boolean,
-        text: ''
+        open: boolean;
+        text: string;
     },
     severity: Severity;
 }
